@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+{% include "_post.html" %}
+<h2>Comments</h2>
+{% for c in comments %}<div class="comment"><p class="meta"><a href="{% url 'profile' c.author.username %}"><b>@{{ c.author.username }}</b></a> · {{ c.created|timesince }} ago</p><p class="text">{{ c.text|linebreaksbr }}</p></div>
+{% empty %}<p class="muted">No comments yet.</p>{% endfor %}
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'comment_add' p.id %}" class="compose">{% csrf_token %}
+ <textarea name="text" maxlength="280" rows="2" placeholder="Write a comment" aria-label="Comment" required></textarea><button>Comment</button></form>
+{% else %}<p class="muted"><a href="{% url 'login' %}">Log in</a> to comment.</p>{% endif %}
+<p><a href="{% url 'feed' %}">← Back to feed</a></p>
+{% endblock %}

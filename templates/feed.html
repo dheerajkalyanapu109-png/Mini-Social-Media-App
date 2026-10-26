@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'post_create' %}" class="compose">{% csrf_token %}
+ <textarea name="text" maxlength="280" rows="3" placeholder="What's happening?" aria-label="New post" required></textarea>
+ <button>Post</button></form>
+<p class="tabs"><a href="{% url 'feed' %}" {% if mode == 'following' %}class="on"{% endif %}>Following</a>
+ <a href="?all=1" {% if mode == 'all' %}class="on"{% endif %}>Everyone</a></p>
+{% else %}<p class="muted"><a href="{% url 'register' %}">Sign up</a> or <a href="{% url 'login' %}">log in</a> to post, like and follow.</p>{% endif %}
+{% for p in posts %}{% include "_post.html" %}
+{% empty %}<p class="muted">Nothing here yet.{% if mode == 'following' %} Follow people or switch to <a href="?all=1">Everyone</a>.{% endif %}</p>{% endfor %}
+{% endblock %}

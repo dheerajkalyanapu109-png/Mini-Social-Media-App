@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+<section class="profile">
+ <div class="avatar big" aria-hidden="true">{{ u.username|slice:":1"|upper }}</div>
+ <div><h1>@{{ u.username }}</h1><p>{{ u.profile.bio|default:"No bio yet." }}</p>
+  <p class="muted"><b>{{ posts|length }}</b> posts · <b>{{ followers }}</b> followers · <b>{{ following }}</b> following</p>
+  {% if user == u %}<a class="btn" href="{% url 'edit_profile' %}">Edit profile</a>
+  {% elif user.is_authenticated %}<form method="post" action="{% url 'follow_toggle' u.username %}">{% csrf_token %}<button>{% if is_following %}Unfollow{% else %}Follow{% endif %}</button></form>
+  {% else %}<p class="muted"><a href="{% url 'login' %}">Log in</a> to follow.</p>{% endif %}
+ </div></section>
+{% for p in posts %}{% include "_post.html" %}{% empty %}<p class="muted">No posts yet.</p>{% endfor %}
+{% endblock %}

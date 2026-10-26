@@ -1,0 +1,11 @@
+<article class="post">
+ <a class="avatar" href="{% url 'profile' p.author.username %}" aria-hidden="true" tabindex="-1">{{ p.author.username|slice:":1"|upper }}</a>
+ <div class="body">
+  <p class="meta"><a href="{% url 'profile' p.author.username %}"><b>@{{ p.author.username }}</b></a> · <a href="{% url 'post_detail' p.id %}">{{ p.created|timesince }} ago</a></p>
+  <p class="text">{{ p.text|linebreaksbr }}</p>
+  <div class="actions">
+   <form method="post" action="{% url 'like_toggle' p.id %}" data-like>{% csrf_token %}
+    <button class="ghost like{% if p.liked %} on{% endif %}" aria-pressed="{% if p.liked %}true{% else %}false{% endif %}">{% if p.liked %}♥{% else %}♡{% endif %} <span>{{ p.n_likes }}</span></button></form>
+   <a class="ghost btn-sm" href="{% url 'post_detail' p.id %}">💬 {{ p.n_comments }}</a>
+  </div></div>
+</article>

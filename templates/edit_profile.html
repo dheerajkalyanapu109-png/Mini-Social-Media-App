@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block content %}
+<h1>Edit profile</h1>
+<form method="post" class="stack">{% csrf_token %}
+ <label>Bio (160 characters max)<textarea name="bio" maxlength="160" rows="3">{{ prof.bio }}</textarea></label>
+ <button>Save</button></form>{% endblock %}
